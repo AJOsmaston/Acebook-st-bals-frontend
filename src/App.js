@@ -1,21 +1,27 @@
 import "./App.css";
+import { useEffect, useState } from 'react'
+
 // import Button from "./components/Button";
-import Data from "./components/Data"
+import Posts from "./components/Posts"
 
 function App() {
 
-  // const fetchJson = () => {
-  //   fetch('/posts/index')
-  //   .then(response => response.json())
-  //   .then(jsonData => {
-  //     console.log(jsonData)
+  const [posts, setPosts] = useState([])
 
-  //   })
-  // }
+  useEffect(() => {
+    const fetchJson = () => {
+      fetch('/posts/index')
+      .then(response => response.json())
+      .then(jsonData => {
+        setPosts([...posts, jsonData])
+      })
+    }
+
+    fetchJson()
+  }, [])
 
   return <div className="App">
-    {/* <Button onClick= {fetchJson} /> */}
-  <Data />
+  <Posts posts={posts}/>
 
   </div>;
 }
