@@ -5,25 +5,41 @@ import React, { useEffect, useState } from "react";
 // }
 
 const Data = () => {
-  const [post, setPost] = useState(null);
+  const [posts, setPost] = useState([]);
+
+  const fetchPosts = async () => {
+    let result = await fetch("https://acebook-st-bals.herokuapp.com/api/v1/posts")
+    let data = await result.json()
+    return data
+  }
   
   useEffect(() => {
-    fetch("https://the-acebook-api-test.herokuapp.com/api/v1/posts/")
-      .then(response => {
-        return response.json()
-      })
-      .then(data => 
-        setPost(data))
-      .finally()
-
-    });
-
-
-console.log(post);
+    let getPosts = async () => {
+      let postsFromAPI = await fetchPosts()
+      setPost(postsFromAPI)
+    }
+    getPosts()
+  }, []);
 
 return (
   <>
-  lol
+    <div className="container">
+      {posts.map((post, index) => {
+        return(
+          <div>
+            <div key={"message" + index}>
+              Message: {post.message}
+            </div>
+            <div key={"time" + index}>
+              Created at: {post.created_at}
+              </div>
+            <div key={"userid" + index}>
+              Created by: {post.user_id}
+            </div>
+          </div>
+        )
+      })}
+    </div>
   </>
 )
 
