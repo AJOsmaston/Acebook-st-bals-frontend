@@ -5,34 +5,37 @@ import React, { useEffect, useState } from "react";
 // }
 
 const Data = () => {
-  const [post, setPost] = useState("");
+  const [post, setPost] = useState(null);
   
   useEffect(() => {
-    const url = "https://the-acebook-api-test.herokuapp.com/api/v1/posts/";
+    fetch("https://the-acebook-api-test.herokuapp.com/api/v1/posts/")
+      .then(response => {
+        return response.json()
+      })
+      .then(data => 
+        setPost(data))
+      .finally()
 
-    const fetchData = async () => {
-      try {
-        const response = await fetch(url);
-        const json = await response.json();
-        console.log(json);
-        setPost(json);
-      } catch (error) {
-        console.log("error", error);
-      }
-    };
+    });
 
-    fetchData();
-  }, []);
 
 console.log(post);
 
-return  Object.keys(post).map((index) => {
-  return(
-    <p key={index} className={"post- " + index}>
-        {post[index].message}
-    </p>
-  )
-})
+return (
+  <>
+  lol
+  </>
+)
+
+// return  Object.keys(post).map((index) => {
+//   return(
+//     <p key={index} className={"post- " + index}>
+//         {post[index].message}
+//     </p>
+//   )
+// })
+
+
 };
 
 export default Data;
